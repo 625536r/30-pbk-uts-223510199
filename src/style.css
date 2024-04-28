@@ -7,7 +7,7 @@
   color: rgba(0, 0, 0, 0.87); 
   background-image: url('https://c4.wallpaperflare.com/wallpaper/698/917/306/minimalism-simple-blue-gradient-wallpaper-preview.jpg');
   font-synthesis: none;
-  background-size: cover; /* Mencakup seluruh area kotak */  
+  background-size: cover; 
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -15,11 +15,11 @@
 
 a {
   font-weight: 500;
-  color: #0088cc; /* Warna link */
+  color: #0088cc; 
   text-decoration: none;
 }
 a:hover {
-  color: #005580; /* Warna link saat hover */
+  color: #005580; 
 }
 
 body {
@@ -33,7 +33,7 @@ body {
 h1 {
   font-size: 3.2em;
   line-height: 1.1;
-  color: #333; /* Warna judul */
+  color: #333; 
 }
 
 
@@ -57,8 +57,8 @@ h1 {
   padding: 80px;
   font-family: 'Times New Roman', Times, serif;
   background-image: url('https://i.pinimg.com/474x/4a/07/fb/4a07fb5da20f1901057339f36bc39c5e.jpg');
-  background-size: cover; /* Mencakup seluruh area kotak */
-  background-position: center; /* Posisi latar belakang di tengah kotak */
+  background-size: cover; 
+  background-position: center; 
   border-radius: 10px;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
 }
@@ -112,7 +112,7 @@ th,
 td {
   padding: 12px;
   text-align: center;
-  margin: 30px; /* Menambahkan jarak antara setiap sel */
+  margin: 30px; 
 }
 
 th {
@@ -126,10 +126,10 @@ th {
 }
 
 button {
-  padding: 5px 10px; /* Mengurangi padding untuk membuat tombol lebih kecil */
-  font-size: 14px; /* Mengurangi ukuran font */
+  padding: 5px 10px; 
+  font-size: 14px; 
   border: none;
-  border-radius: 3px; /* Mengurangi border-radius */
+  border-radius: 3px; 
   background-color: red;
   cursor: pointer;
   color: #fff;
