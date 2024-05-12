@@ -1,6 +1,5 @@
 <template>
   <div class="app">
-    <!-- Header dengan menu Post dan Todos -->
     <header>
       <nav>
         <ul>
@@ -10,13 +9,13 @@
       </nav>
     </header>
 
-    <!-- Tampilan berdasarkan tab yang aktif -->
     <div v-if="activeTab === 'Todos'">
       <h1>List Kegiatan</h1>
       <div class="input-container">
         <input v-model="newTask" @keyup.enter="addTask" placeholder="Tambahkan Kegiatan" />
+        <button @click="addTask">Tambah</button>
       </div>
-      <button @click="addTask">Tambah</button>
+   
      
       <div class="filter-container">
         <label for="filterCompleted">Tampilkan Kegiatan yang belum selesai</label>
@@ -43,8 +42,7 @@
     </div>
 
     <div v-else-if="activeTab === 'Post'">
-      <h1>Fitur Post</h1>
-      <!-- Tampilan postingan dari user -->
+      <h1>Fitur Post </h1>
       <h3>Pilih User</h3>
       <select v-model="selectedUser">
         <option v-for="user in users" :value="user.id" :key="user.id">{{ user.name }}</option>
@@ -69,10 +67,10 @@ export default {
         { id: 2, completed: false, text: "Tugas UTS" },
       ],
       showIncompleteOnly: false,
-      activeTab: 'Todos', // Menentukan tab yang aktif
-      users: [], // Data pengguna dari JSONPlaceholder
-      selectedUser: null, // ID pengguna yang dipilih
-      posts: [], // Data postingan dari JSONPlaceholder
+      activeTab: 'Todos', 
+      users: [], 
+      selectedUser: null, 
+      posts: [], 
     };
   },
   computed: {
