@@ -10,116 +10,32 @@
     </header>
 
     <div v-if="activeTab === 'Todos'">
-      <h1>List Kegiatan</h1>
-      <div class="input-container">
-        <input v-model="newTask" @keyup.enter="addTask" placeholder="Tambahkan Kegiatan" />
-        <button @click="addTask">Tambah</button>
-      </div>
-   
-     
-      <div class="filter-container">
-        <label for="filterCompleted">Tampilkan Kegiatan yang belum selesai</label>
-        <input type="checkbox" id="filterCompleted" v-model="showIncompleteOnly">
-      </div>
-    
-      <table>
-        <tbody>
-          <tr v-for="(task, index) in filteredTasks" :key="task.id">
-            <td>
-              <span :class="{ completed: task.completed }" style="text-align: left;">
-                {{ task.text }}
-              </span>
-            </td>
-            <td>
-              <input type="checkbox" v-model="task.completed">
-            </td>
-            <td>
-              <button class="btn btn-primary btn-sm" @click="removeTask(index)">Hapus</button>
-            </td>
-          </tr>
-        </tbody>
-      </table>
+      <Todos />
     </div>
 
     <div v-else-if="activeTab === 'Post'">
-      <h1>Fitur Post </h1>
-      <h3>Pilih User</h3>
-      <select v-model="selectedUser">
-        <option v-for="user in users" :value="user.id" :key="user.id">{{ user.name }}</option>
-      </select>
-      <div class="post-list">
-        <div v-for="post in filteredPosts" :key="post.id" class="post-item">
-          <h4>{{ post.title }}</h4>
-          <p>{{ post.body }}</p>
-        </div>
-      </div>
+      <Post />
     </div>
   </div>
 </template>
 
 <script>
+import Todos from './components/Todos.vue';
+import Post from './components/Post.vue';
+
 export default {
+  components: {
+    Todos,
+    Post
+  },
   data() {
     return {
-      newTask: "",
-      tasks: [
-        { id: 1, completed: false, text: "Belajar" },
-        { id: 2, completed: false, text: "Tugas UTS" },
-      ],
-      showIncompleteOnly: false,
-      activeTab: 'Todos', 
-      users: [], 
-      selectedUser: null, 
-      posts: [], 
+      activeTab: 'Todos'
     };
-  },
-  computed: {
-    sortedTasks() {
-      return this.tasks.sort((a, b) => a.completed - b.completed);
-    },
-    filteredTasks() {
-      return this.showIncompleteOnly
-        ? this.sortedTasks.filter((task) => !task.completed)
-        : this.sortedTasks;
-    },
-    filteredPosts() {
-      return this.posts.filter((post) => post.userId === this.selectedUser);
-    },
-  },
-  methods: {
-    addTask() {
-      if (this.newTask.trim() !== "") {
-        this.tasks.push({ id: Date.now(), completed: false, text: this.newTask });
-        this.newTask = "";
-      }
-    },
-    removeTask(index) {
-      this.tasks.splice(index, 1);
-    },
-    fetchData() {
-      fetch('https://jsonplaceholder.typicode.com/users')
-        .then(response => response.json())
-        .then(data => {
-          this.users = data;
-        })
-        .catch(error => {
-          console.error('Error fetching users:', error);
-        });
-
-      fetch('https://jsonplaceholder.typicode.com/posts')
-        .then(response => response.json())
-        .then(data => {
-          this.posts = data;
-        })
-        .catch(error => {
-          console.error('Error fetching posts:', error);
-        });
-    },
-  },
-  mounted() {
-    this.fetchData();
-  },
+  }
 };
 </script>
 
-
+<style>
+/* Add any global styles here */
+</style>
