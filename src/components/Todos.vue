@@ -1,6 +1,6 @@
 <template>
     <div>
-      <h1>List Kegiatan</h1>
+      <slot name="header"></slot>
       <div class="input-container">
         <input v-model="newTask" @keyup.enter="addTask" placeholder="Tambahkan Kegiatan" />
         <button @click="addTask">Tambah</button>
@@ -8,7 +8,7 @@
   
       <div class="filter-container">
         <label for="filterCompleted">Tampilkan Kegiatan yang belum selesai</label>
-        <input type="checkbox" id="filterCompleted" v-model="showIncompleteOnly">
+        <input type="checkbox" id="filterCompleted" v-model="localShowIncompleteOnly">
       </div>
   
       <table>
@@ -28,27 +28,36 @@
           </tr>
         </tbody>
       </table>
+  
+      <slot name="footer"></slot>
     </div>
   </template>
   
   <script>
   export default {
+    props: {
+      tasks: {
+        type: Array,
+        required: true
+      },
+      showIncompleteOnly: {
+        type: Boolean,
+        required: true
+      }
+    },
     data() {
       return {
         newTask: "",
-        tasks: [
-          { id: 1, completed: false, text: "Belajar" },
-          { id: 2, completed: false, text: "Tugas UTS" },
-        ],
-        showIncompleteOnly: false,
+        localTasks: this.tasks,
+        localShowIncompleteOnly: this.showIncompleteOnly,
       };
     },
     computed: {
       sortedTasks() {
-        return this.tasks.sort((a, b) => a.completed - b.completed);
+        return this.localTasks.sort((a, b) => a.completed - b.completed);
       },
       filteredTasks() {
-        return this.showIncompleteOnly
+        return this.localShowIncompleteOnly
           ? this.sortedTasks.filter((task) => !task.completed)
           : this.sortedTasks;
       },
@@ -56,12 +65,14 @@
     methods: {
       addTask() {
         if (this.newTask.trim() !== "") {
-          this.tasks.push({ id: Date.now(), completed: false, text: this.newTask });
+          this.localTasks.push({ id: Date.now(), completed: false, text: this.newTask });
           this.newTask = "";
+          this.$emit('update-tasks', this.localTasks);
         }
       },
       removeTask(index) {
-        this.tasks.splice(index, 1);
+        this.localTasks.splice(index, 1);
+        this.$emit('update-tasks', this.localTasks);
       },
     },
   };

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1>Fitur Post </h1>
+    <slot name="header"></slot>
     <h3>Pilih User</h3>
     <select v-model="selectedUser">
       <option v-for="user in users" :value="user.id" :key="user.id">{{ user.name }}</option>
@@ -11,46 +11,31 @@
         <p>{{ post.body }}</p>
       </div>
     </div>
+    <slot name="footer"></slot>
   </div>
 </template>
 
 <script>
 export default {
+  props: {
+    users: {
+      type: Array,
+      required: true
+    },
+    posts: {
+      type: Array,
+      required: true
+    }
+  },
   data() {
     return {
-      users: [],
       selectedUser: null,
-      posts: [],
     };
   },
   computed: {
     filteredPosts() {
       return this.posts.filter((post) => post.userId === this.selectedUser);
     },
-  },
-  methods: {
-    fetchData() {
-      fetch('https://jsonplaceholder.typicode.com/users')
-        .then(response => response.json())
-        .then(data => {
-          this.users = data;
-        })
-        .catch(error => {
-          console.error('Error fetching users:', error);
-        });
-
-      fetch('https://jsonplaceholder.typicode.com/posts')
-        .then(response => response.json())
-        .then(data => {
-          this.posts = data;
-        })
-        .catch(error => {
-          console.error('Error fetching posts:', error);
-        });
-    },
-  },
-  mounted() {
-    this.fetchData();
   },
 };
 </script>
