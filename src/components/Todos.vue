@@ -78,7 +78,5 @@
   };
   </script>
   
-  <style scoped>
-  /* Add any styles specific to the Todos component here */
-  </style>
+ 
   

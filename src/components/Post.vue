@@ -40,6 +40,4 @@ export default {
 };
 </script>
 
-<style scoped>
-/* Add any styles specific to the Post component here */
-</style>
+
