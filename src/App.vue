@@ -1,87 +1,40 @@
 <template>
-  <div class="app">
-    <header>
-      <nav>
-        <ul>
-          <li @click="activeTab = 'Todos'" :class="{ active: activeTab === 'Todos' }">Todos</li>
-          <li @click="activeTab = 'Post'" :class="{ active: activeTab === 'Post' }">Post</li>
-        </ul>
-      </nav>
-    </header>
+  <div class="q-pa-none">
+    <q-layout>
+      <q-header elevated class="bg-dark">
+        <q-toolbar inset></q-toolbar>
+        <q-toolbar>
+          <q-toolbar-title>
+            <strong>TUGAS</strong> PBK TEORI
+          </q-toolbar-title>
+        </q-toolbar>
+        <q-toolbar inset><navbar-tabs /></q-toolbar>
+      </q-header>
 
-    <div v-if="activeTab === 'Todos'">
-      <Todos :tasks="tasks" :show-incomplete-only="showIncompleteOnly" @update-tasks="updateTasks">
-        <template #header>
-          <h1>Daftar Kegiatan</h1>
-        </template>
-        <template #footer>
-          <p>Total Kegiatan: {{ tasks.length }}</p>
-        </template>
-      </Todos>
-    </div>
+      <q-page-container>
+        <q-page>
+          <router-view></router-view>
+        </q-page>
+      </q-page-container>
 
-    <div v-else-if="activeTab === 'Post'">
-      <Post :users="users" :posts="posts">
-        <template #header>
-          <h1>Fitur Post</h1>
-        </template>
-        <template #footer>
-          <p>Total Postingan: {{ posts.length }}</p>
-        </template>
-      </Post>
-    </div>
+      <q-footer class="bg-dark text-white q-pa-md">
+        <div class="text-center">
+          © 2024 Rakhyan Naufhal Ardhana. TUGAS Besar.
+        </div>
+      </q-footer>
+    </q-layout>
   </div>
 </template>
 
 <script>
-import Todos from './components/Todos.vue';
-import Post from './components/Post.vue';
+import NavbarTabs from './components/NavbarTabs.vue';
+
 
 export default {
+  name: 'App',
   components: {
-    Todos,
-    Post
-  },
-  data() {
-    return {
-      activeTab: 'Todos',
-      tasks: [
-        { id: 1, completed: false, text: "Belajar" },
-        { id: 2, completed: false, text: "Tugas UTS" },
-      ],
-      showIncompleteOnly: false,
-      users: [],
-      posts: [],
-    };
-  },
-  methods: {
-    updateTasks(tasks) {
-      this.tasks = tasks;
-    },
-    fetchData() {
-      fetch('https://jsonplaceholder.typicode.com/users')
-        .then(response => response.json())
-        .then(data => {
-          this.users = data;
-        })
-        .catch(error => {
-          console.error('Error fetching users:', error);
-        });
-
-      fetch('https://jsonplaceholder.typicode.com/posts')
-        .then(response => response.json())
-        .then(data => {
-          this.posts = data;
-        })
-        .catch(error => {
-          console.error('Error fetching posts:', error);
-        });
-    },
-  },
-  mounted() {
-    this.fetchData();
+    NavbarTabs,
+   
   },
 };
 </script>
-
-
