@@ -8,16 +8,37 @@
           <q-spinner-ios color="dark" size="3em" />
           <q-tooltip :offset="[0, 8]">Loading...</q-tooltip>
         </div>
-        <div v-else>
-          <q-item clickable v-ripple v-for="photo in photos" :key="photo.id" @click="viewPhoto(photo.url)">
-            <q-item-section thumbnail>
-              <img :src="photo.thumbnailUrl" :alt="photo.title">
-            </q-item-section>
-            <q-item-section>{{ photo.title }}</q-item-section>
-          </q-item>
+        <div v-else class="q-gutter-md row items-start q-pa-md">
+          <q-card 
+            v-for="photo in photos" 
+            :key="photo.id" 
+            class="my-card col-12 col-sm-6 col-md-4 col-lg-3" 
+            @click="viewPhoto(photo.url)"
+          >
+            <q-img 
+              :src="photo.thumbnailUrl" 
+              class="fixed-img"
+            >
+              
+            </q-img>
+            <q-card-section class="card-description">
+              {{ photo.title }}
+            </q-card-section>
+          </q-card>
         </div>
       </q-list>
     </div>
+
+    <q-dialog v-model="photoDialog" persistent>
+      <q-card>
+        <q-card-section>
+          <img :src="currentPhotoUrl" alt="Photo" style="width: 100%;">
+        </q-card-section>
+        <q-card-actions align="right">
+          <q-btn flat label="Close" @click="photoDialog = false" />
+        </q-card-actions>
+      </q-card>
+    </q-dialog>
   </div>
 </template>
 
@@ -35,6 +56,8 @@ export default {
 
     const albumId = computed(() => route.params.id);
     const loading = ref(true);
+    const photoDialog = ref(false);
+    const currentPhotoUrl = ref('');
 
     onMounted(() => {
       setTimeout(() => {
@@ -44,7 +67,8 @@ export default {
     });
 
     const viewPhoto = (url) => {
-      window.open(url, '_blank');
+      currentPhotoUrl.value = url;
+      photoDialog.value = true;
     };
 
     const goBack = () => {
@@ -59,7 +83,9 @@ export default {
         return album ? album.title : 'Album';
       }),
       viewPhoto,
-      goBack
+      goBack,
+      photoDialog,
+      currentPhotoUrl
     };
   }
 };
@@ -83,5 +109,32 @@ h4 {
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+
+.my-card {
+  cursor: pointer;
+  margin: 16px;
+  width: 250px; /* Fixed width for uniform size */
+}
+
+.fixed-img {
+  height: 200px; /* Fixed height for uniform size */
+  object-fit: cover;
+}
+
+.card-description {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.q-gutter-md > .col {
+  padding: 8px;
+}
+
+.q-pa-md {
+  padding: 16px;
+  margin-left: 50px;
+  margin-right: 50;
 }
 </style>
